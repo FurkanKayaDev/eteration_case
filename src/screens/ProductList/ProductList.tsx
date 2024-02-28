@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, TouchableOpacity, StyleSheet, FlatList} from 'react-native';
 import SearchInput from '../../components/SearchInput';
-import {screenHeight, screenWidth} from '../../utils/uiHelpers';
+import {screenWidth} from '../../utils/uiHelpers';
 import {useAppDispatch, useAppSelector} from '../../redux/store';
 import {fetchProducts} from '../../redux/slices/DataSlice/DataSlice';
 import Products from './components/Products';
@@ -20,11 +20,7 @@ const ProductList = () => {
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
 
   useEffect(() => {
-    dispatch(fetchProducts())
-      .unwrap()
-      .then((data: Product[]) => {
-        setFilteredProducts(data);
-      });
+    dispatch(fetchProducts());
   }, []);
 
   useEffect(() => {
@@ -92,7 +88,7 @@ const ProductList = () => {
         value={search}
         setValue={setSearch}
         placeholder="🔍 Search"
-        containerStyle={{margin: 10, width: screenWidth - 60}}
+        containerStyle={styles.input}
       />
       <View style={styles.filterContainer}>
         <Text style={{fontSize: 18}}>Filters:</Text>
@@ -134,6 +130,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: 'row',
+    width: screenWidth - 60,
+  },
+  input: {
+    margin: 10,
     width: screenWidth - 60,
   },
   filterButton: {

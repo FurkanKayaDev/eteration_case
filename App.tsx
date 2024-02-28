@@ -1,4 +1,4 @@
-import {SafeAreaView, StyleSheet} from 'react-native';
+import {SafeAreaView} from 'react-native';
 import React from 'react';
 import Router from './src/router/Router';
 import {Provider} from 'react-redux';
@@ -23,5 +23,3 @@ const App = () => {
 };
 
 export default App;
-
-const styles = StyleSheet.create({});

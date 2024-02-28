@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
   FlatList,
 } from 'react-native';
-import {ScrollView} from 'react-native-virtualized-view';
 import SearchInput from '../../../components/SearchInput';
 import {screenHeight, screenWidth} from '../../../utils/uiHelpers';
 import {useAppDispatch, useAppSelector} from '../../../redux/store';
@@ -20,42 +19,16 @@ import {
   setSort,
 } from '../../../redux/slices/DataSlice/DataSlice';
 import {Product} from '../../../types/ProductTypes';
+import RadioButton from '../../../components/RadioButton';
+import Checkbox from '../../../components/Checkbox';
 
 const screenRatio = screenHeight / screenWidth;
-
-type RadioButtonProps = {
-  label: string;
-  selected: boolean;
-  onPress: () => void;
-};
 
 type FilterModalProps = {
   isVisible: boolean;
   setModalVisible: (visible: boolean) => void;
   products: Product[];
 };
-
-const RadioButton: React.FC<RadioButtonProps> = ({
-  label,
-  selected,
-  onPress,
-}) => (
-  <TouchableOpacity onPress={onPress} style={styles.radioButton}>
-    <View style={styles.radioCircle} />
-    {selected && <View style={styles.checkedCircle} />}
-    <Text style={styles.radioText}>{label}</Text>
-  </TouchableOpacity>
-);
-
-const Checkbox = ({checked}: {checked: boolean}) => (
-  <View style={[styles.checkbox, checked && styles.checkedBox]}>
-    {checked ? (
-      <Icon name="check" size={14} color="white" />
-    ) : (
-      <Icon name="square-o" size={12} color="white" />
-    )}
-  </View>
-);
 
 const FilterModal: React.FC<FilterModalProps> = ({
   isVisible,
@@ -129,6 +102,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
     );
     setBrand(filterBrands);
   };
+
   const brandRenderItem = ({item}: {item: Product}) => {
     return (
       <TouchableOpacity
@@ -149,6 +123,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
       </TouchableOpacity>
     );
   };
+
   const modelRenderItem = ({item}: {item: Product}) => {
     return (
       <TouchableOpacity
@@ -169,6 +144,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
       </TouchableOpacity>
     );
   };
+
   return (
     <Modal visible={isVisible} animationType="slide">
       <SafeAreaView>
@@ -260,8 +236,12 @@ const FilterModal: React.FC<FilterModalProps> = ({
             <TouchableOpacity
               style={styles.applyButton}
               onPress={() => {
-                dispatch(addFilterBrands(selectedBrands.map(i => i?.brand)));
-                dispatch(addFilterModels(selectedModels.map(i => i?.model)));
+                dispatch(
+                  addFilterBrands(selectedBrands.map(item => item?.brand)),
+                );
+                dispatch(
+                  addFilterModels(selectedModels.map(item => item?.model)),
+                );
                 if (selectedOption) {
                   dispatch(setSort(selectedOption));
                 }
@@ -305,36 +285,6 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     color: 'grey',
   },
-  radioButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  radioCircle: {
-    height: 20,
-    width: 20,
-    borderRadius: 12,
-    borderWidth: 2,
-    borderColor: '#1c56ff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  radioText: {
-    marginLeft: 10,
-  },
-  checkedCircle: {
-    position: 'absolute',
-    top: 4,
-    left: 4,
-    right: 4,
-    bottom: 4,
-    height: 12,
-    width: 12,
-    borderRadius: 12,
-    backgroundColor: '#1c56ff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   blank: {
     height: 1,
     marginVertical: 5,
@@ -345,24 +295,6 @@ const styles = StyleSheet.create({
   centerView: {
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  checkbox: {
-    width: 20,
-    height: 20,
-    borderWidth: 2,
-    borderColor: '#1c56ff',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 5,
-  },
-  checkedBox: {
-    backgroundColor: '#1c56ff',
-  },
-  brandContainer: {
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-    margin: 10,
-    maxHeight: screenRatio > 1.8 ? screenHeight / 10 : screenHeight / 12,
   },
   applyButton: {
     backgroundColor: '#1c56ff',
@@ -382,5 +314,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     margin: 5,
     width: screenWidth - 60,
+  },
+  brandContainer: {
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    margin: 10,
+    maxHeight: screenRatio > 1.8 ? screenHeight / 10 : screenHeight / 12,
   },
 });

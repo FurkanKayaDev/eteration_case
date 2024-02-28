@@ -12,10 +12,9 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {StackScreenParamList} from '../../types/NavigationTypes';
 const CartPage = () => {
   const dispatch = useAppDispatch();
+  const {cartItems} = useAppSelector(state => state.cart);
   const navigation =
     useNavigation<NativeStackNavigationProp<StackScreenParamList>>();
-
-  const {cartItems} = useAppSelector(state => state.cart);
 
   const uniqueItems = Array.from(new Set(cartItems.map(item => item.id))).map(
     id => {
@@ -41,16 +40,16 @@ const CartPage = () => {
       name: item.name,
     });
   };
+
   const renderItem = ({item}: {item: Product}) => {
     return (
       <View style={styles.renderContainer}>
-        <TouchableOpacity
-          style={{marginVertical: 5}}
-          onPress={() => goDetail(item)}>
+        <TouchableOpacity onPress={() => goDetail(item)}>
           <Text style={styles.name}>{item.name}</Text>
           <Text style={styles.price}>
             {Number(item.price) *
-              cartItems.filter(cartItem => cartItem.id === item.id).length}{' '}
+              cartItems?.filter(cartItem => cartItem.id === item.id)
+                .length}{' '}
             ₺
           </Text>
         </TouchableOpacity>
@@ -62,7 +61,7 @@ const CartPage = () => {
           </TouchableOpacity>
           <TouchableOpacity style={styles.countBtn}>
             <Text style={styles.countText}>
-              {cartItems.filter(cartItem => cartItem.id === item.id).length}
+              {cartItems?.filter(cartItem => cartItem.id === item.id).length}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.btn} onPress={() => addProduct(item)}>
@@ -76,13 +75,15 @@ const CartPage = () => {
     <View style={styles.container}>
       <Header />
       <View style={styles.products}>
-        {cartItems.length > 0 ? (
+        {cartItems && cartItems.length > 0 ? (
           <View>
-            <FlatList
-              data={uniqueItems}
-              keyExtractor={item => item.id.toString()}
-              renderItem={renderItem}
-            />
+            <View style={styles.body}>
+              <FlatList
+                data={uniqueItems}
+                keyExtractor={item => item.id.toString()}
+                renderItem={renderItem}
+              />
+            </View>
             <View style={styles.footerContainer}>
               <View>
                 <Text style={styles.totalText}>Total:</Text>
@@ -182,6 +183,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#1c56ff',
     justifyContent: 'center',
     alignItems: 'center',
+    marginTop: 10,
     borderRadius: 5,
   },
   completeText: {
@@ -198,5 +200,8 @@ const styles = StyleSheet.create({
   emptyText: {
     fontSize: 24,
     color: 'grey',
+  },
+  body: {
+    maxHeight: '90%',
   },
 });
