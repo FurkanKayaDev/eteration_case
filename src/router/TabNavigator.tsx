@@ -9,11 +9,11 @@ import HomeStackBridge from './Bridges/HomeStackBridge';
 import {Basket, Home, Profile, Star} from '../assets/icons';
 import {useAppSelector} from '../redux/store';
 const TabNavigator = () => {
-  const Tab = createBottomTabNavigator();
+  const {Navigator, Screen} = createBottomTabNavigator();
   const {cartItems} = useAppSelector(state => state.cart);
   return (
-    <Tab.Navigator>
-      <Tab.Screen
+    <Navigator>
+      <Screen
         options={{
           tabBarIcon: ({focused}) => {
             return (
@@ -29,7 +29,7 @@ const TabNavigator = () => {
         name="HomeStackBridge"
         component={HomeStackBridge}
       />
-      <Tab.Screen
+      <Screen
         options={{
           tabBarIcon: ({focused}) => (
             <View>
@@ -45,7 +45,7 @@ const TabNavigator = () => {
         name="CartPage"
         component={CartPage}
       />
-      <Tab.Screen
+      <Screen
         options={{
           tabBarIcon: ({focused}) => {
             return (
@@ -60,7 +60,7 @@ const TabNavigator = () => {
         name="FavouritesPage"
         component={FavouritesPage}
       />
-      <Tab.Screen
+      <Screen
         options={{
           tabBarIcon: ({focused}) => {
             return (
@@ -75,7 +75,7 @@ const TabNavigator = () => {
         name="ProfilePage"
         component={ProfilePage}
       />
-    </Tab.Navigator>
+    </Navigator>
   );
 };
 

@@ -55,16 +55,20 @@ const CartPage = () => {
         </TouchableOpacity>
         <View style={styles.counter}>
           <TouchableOpacity
+            testID="removeProduct"
             style={styles.btn}
             onPress={() => removeProduct(item)}>
             <Text>-</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.countBtn}>
-            <Text style={styles.countText}>
+            <Text testID="countText" style={styles.countText}>
               {cartItems?.filter(cartItem => cartItem.id === item.id).length}
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.btn} onPress={() => addProduct(item)}>
+          <TouchableOpacity
+            testID="addProduct"
+            style={styles.btn}
+            onPress={() => addProduct(item)}>
             <Text>+</Text>
           </TouchableOpacity>
         </View>
@@ -101,7 +105,9 @@ const CartPage = () => {
           </View>
         ) : (
           <View style={styles.emptyCard}>
-            <Text style={styles.emptyText}>Your cart is empty</Text>
+            <Text testID="emptyCartText" style={styles.emptyText}>
+              Your cart is empty
+            </Text>
           </View>
         )}
       </View>

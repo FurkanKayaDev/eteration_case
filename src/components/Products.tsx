@@ -1,17 +1,17 @@
 import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import React from 'react';
-import {screenWidth} from '../../../utils/uiHelpers';
+import {screenWidth} from '../utils/uiHelpers';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {StackScreenParamList} from '../../../types/NavigationTypes';
-import {Product} from '../../../types/ProductTypes';
-import {useAppDispatch, useAppSelector} from '../../../redux/store';
+import {StackScreenParamList} from '../types/NavigationTypes';
+import {Product} from '../types/ProductTypes';
+import {useAppDispatch, useAppSelector} from '../redux/store';
 import {
   addToFavourites,
   removeFromFavourites,
-} from '../../../redux/slices/FavouritesSlice/FavouritesSlice';
-import {addToCart} from '../../../redux/slices/CartSlice/CartSlice';
+} from '../redux/slices/FavouritesSlice/FavouritesSlice';
+import {addToCart} from '../redux/slices/CartSlice/CartSlice';
 
 const Products = ({item}: {item: Product}) => {
   const navigation =
@@ -39,6 +39,7 @@ const Products = ({item}: {item: Product}) => {
       }>
       <View style={styles.imageContainer}>
         <TouchableOpacity
+          testID="favouriteButton"
           style={styles.starIcon}
           onPress={() => {
             favouriteItems.some(favItem => favItem.id === item.id)
@@ -63,7 +64,10 @@ const Products = ({item}: {item: Product}) => {
           {item.name}
         </Text>
       </View>
-      <TouchableOpacity style={styles.button} onPress={() => addCart(item)}>
+      <TouchableOpacity
+        testID="addToCartButton"
+        style={styles.button}
+        onPress={() => addCart(item)}>
         <Text style={styles.buttonText}>Add to Cart</Text>
       </TouchableOpacity>
     </TouchableOpacity>

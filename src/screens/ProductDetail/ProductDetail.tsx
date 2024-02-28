@@ -41,7 +41,10 @@ const ProductDetail = () => {
           <Text style={styles.priceText}>Price:</Text>
           <Text style={styles.price}>{item.price} ₺</Text>
         </View>
-        <TouchableOpacity style={styles.button} onPress={addCart}>
+        <TouchableOpacity
+          testID="addToCartButton"
+          style={styles.button}
+          onPress={addCart}>
           <Text style={styles.btnText}>Add to Cart</Text>
         </TouchableOpacity>
       </View>

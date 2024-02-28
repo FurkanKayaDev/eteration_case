@@ -5,7 +5,7 @@ import SearchInput from '../../components/SearchInput';
 import {screenWidth} from '../../utils/uiHelpers';
 import {Product} from '../../types/ProductTypes';
 import {useAppSelector} from '../../redux/store';
-import Products from '../ProductList/components/Products';
+import Products from '../../components/Products';
 const FavouritesPage = () => {
   const {favouriteItems} = useAppSelector(state => state.favourites);
   const [search, setSearch] = React.useState('');

@@ -1,3 +1,7 @@
+const {createRequire} = require('module');
+
+const rnRequire = createRequire(require.resolve('react-native'));
+
 module.exports = {
-  presets: ['module:@react-native/babel-preset'],
+  presets: [rnRequire.resolve('@react-native/babel-preset')],
 };

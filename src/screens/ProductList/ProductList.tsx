@@ -4,7 +4,7 @@ import SearchInput from '../../components/SearchInput';
 import {screenWidth} from '../../utils/uiHelpers';
 import {useAppDispatch, useAppSelector} from '../../redux/store';
 import {fetchProducts} from '../../redux/slices/DataSlice/DataSlice';
-import Products from './components/Products';
+import Products from '../../components/Products';
 import FilterModal from './components/FilterModal';
 import {Product} from '../../types/ProductTypes';
 import Header from '../../components/Header';
@@ -94,7 +94,8 @@ const ProductList = () => {
         <Text style={{fontSize: 18}}>Filters:</Text>
         <TouchableOpacity
           style={styles.filterButton}
-          onPress={() => setModalVisible(true)}>
+          onPress={() => setModalVisible(true)}
+          testID="selectFilterButton">
           <Text>Select Filter</Text>
         </TouchableOpacity>
       </View>
@@ -102,6 +103,7 @@ const ProductList = () => {
         data={filteredProducts?.slice(0, displayedProductsCount)}
         keyExtractor={(item: Product) => item.id?.toString()}
         numColumns={2}
+        testID="product-list"
         showsVerticalScrollIndicator={false}
         renderItem={renderItem}
         onEndReached={onLoadMore}
