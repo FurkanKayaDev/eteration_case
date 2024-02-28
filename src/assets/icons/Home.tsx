@@ -1,13 +1,13 @@
 import * as React from 'react';
-import Svg, {Path} from 'react-native-svg';
+import Svg, {Path, SvgProps} from 'react-native-svg';
 
-function SvgComponent(props) {
+function SvgComponent(props: SvgProps) {
   return (
     <Svg
       width={35}
       height={32}
       viewBox="0 0 35 32"
-      fill="none"
+      fill={props.fill || 'none'}
       xmlns="http://www.w3.org/2000/svg"
       {...props}>
       <Path transform="translate(1 1)" fill="#fff" d="M0 0H32.309V30H0z" />

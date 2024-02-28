@@ -3,27 +3,42 @@ import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import CartPage from '../screens/CartPage';
 import FavouritesPage from '../screens/FavouritesPage';
-import ProductList from '../screens/ProductList';
+
 import ProfilePage from '../screens/ProfilePage';
-import * as Icons from '../assets/icons';
-import Header from '../components/Header';
+import HomeStackBridge from './Bridges/HomeStackBridge';
+import {Basket, Home, Profile, Star} from '../assets/icons';
+import {useAppSelector} from '../redux/store';
 const TabNavigator = () => {
   const Tab = createBottomTabNavigator();
+  const {cartItems} = useAppSelector(state => state.cart);
   return (
     <Tab.Navigator>
       <Tab.Screen
         options={{
-          tabBarIcon: () => <Icons.Home />,
-          header: () => <Header />,
-          headerShown: true,
+          tabBarIcon: ({focused}) => {
+            return (
+              <View>
+                <Home fill={focused ? '#1c56ff' : 'white'} />
+              </View>
+            );
+          },
+          headerShown: false,
           tabBarShowLabel: false,
+          tabBarAccessibilityLabel: 'Home',
         }}
-        name="ProductList"
-        component={ProductList}
+        name="HomeStackBridge"
+        component={HomeStackBridge}
       />
       <Tab.Screen
         options={{
-          tabBarIcon: () => <Icons.Basket />,
+          tabBarIcon: ({focused}) => (
+            <View>
+              <View style={styles.cardCount}>
+                <Text style={styles.countText}>{cartItems.length}</Text>
+              </View>
+              <Basket fill={focused ? '#1c56ff' : 'white'} />
+            </View>
+          ),
           headerShown: false,
           tabBarShowLabel: false,
         }}
@@ -32,7 +47,13 @@ const TabNavigator = () => {
       />
       <Tab.Screen
         options={{
-          tabBarIcon: () => <Icons.Star />,
+          tabBarIcon: ({focused}) => {
+            return (
+              <View>
+                <Star fill={focused ? '#1c56ff' : 'white'} />
+              </View>
+            );
+          },
           headerShown: false,
           tabBarShowLabel: false,
         }}
@@ -41,7 +62,13 @@ const TabNavigator = () => {
       />
       <Tab.Screen
         options={{
-          tabBarIcon: () => <Icons.Profile />,
+          tabBarIcon: ({focused}) => {
+            return (
+              <View>
+                <Profile fill={focused ? '#1c56ff' : 'white'} />
+              </View>
+            );
+          },
           headerShown: false,
           tabBarShowLabel: false,
         }}
@@ -54,4 +81,20 @@ const TabNavigator = () => {
 
 export default TabNavigator;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  cardCount: {
+    position: 'absolute',
+    top: 0,
+    right: -10,
+    backgroundColor: 'red',
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 1,
+  },
+  countText: {
+    color: 'white',
+  },
+});

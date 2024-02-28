@@ -3,33 +3,20 @@ import {View, Text, TouchableOpacity, StyleSheet, FlatList} from 'react-native';
 import SearchInput from '../../components/SearchInput';
 import {screenHeight, screenWidth} from '../../utils/uiHelpers';
 import {useAppDispatch, useAppSelector} from '../../redux/store';
-import {
-  clearFilterBrands,
-  clearFilterModels,
-  fetchProducts,
-  setSort,
-} from '../../redux/slices/DataSlice/DataSlice';
+import {fetchProducts} from '../../redux/slices/DataSlice/DataSlice';
 import Products from './components/Products';
 import FilterModal from './components/FilterModal';
-
-interface Product {
-  id: string;
-  brand: string;
-  model: string;
-  name: string;
-  price: string;
-  description: string;
-  image: string;
-  createdAt: string;
-}
+import {Product} from '../../types/ProductTypes';
+import Header from '../../components/Header';
 
 const ProductList = () => {
   const [search, setSearch] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const dispatch = useAppDispatch();
   const {products, filterBrands, filterModels, sort} = useAppSelector(
-    (state: any) => state.data,
+    state => state.data,
   );
+  const [displayedProductsCount, setDisplayedProductsCount] = useState(12);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
 
   useEffect(() => {
@@ -64,9 +51,7 @@ const ProductList = () => {
       );
     }
     if (sort) {
-      console.log('filtered', filtered);
       const sorted = sortProducts(filtered, sort);
-      console.log('sorted', sorted);
       setFilteredProducts(sorted);
     } else {
       setFilteredProducts(filtered);
@@ -92,10 +77,8 @@ const ProductList = () => {
     }
   };
 
-  const clearFilter = () => {
-    dispatch(clearFilterBrands());
-    dispatch(clearFilterModels());
-    dispatch(setSort(''));
+  const onLoadMore = () => {
+    setDisplayedProductsCount(prevCount => prevCount + 12);
   };
 
   const renderItem = ({item}: {item: Product}) => {
@@ -104,6 +87,7 @@ const ProductList = () => {
 
   return (
     <View style={styles.container}>
+      <Header />
       <SearchInput
         value={search}
         setValue={setSearch}
@@ -112,26 +96,22 @@ const ProductList = () => {
       />
       <View style={styles.filterContainer}>
         <Text style={{fontSize: 18}}>Filters:</Text>
-        {filterBrands.length > 0 || filterModels.length > 0 ? (
-          <TouchableOpacity style={styles.clearFilter} onPress={clearFilter}>
-            <Text style={styles.clearText}>Clear</Text>
-          </TouchableOpacity>
-        ) : null}
         <TouchableOpacity
           style={styles.filterButton}
           onPress={() => setModalVisible(true)}>
           <Text>Select Filter</Text>
         </TouchableOpacity>
       </View>
-      <View style={styles.productContainer}>
-        <FlatList
-          data={filteredProducts}
-          keyExtractor={(item: Product) => item.id?.toString()}
-          numColumns={2}
-          showsVerticalScrollIndicator={false}
-          renderItem={renderItem}
-        />
-      </View>
+      <FlatList
+        data={filteredProducts?.slice(0, displayedProductsCount)}
+        keyExtractor={(item: Product) => item.id?.toString()}
+        numColumns={2}
+        showsVerticalScrollIndicator={false}
+        renderItem={renderItem}
+        onEndReached={onLoadMore}
+        contentContainerStyle={styles.productContainer}
+        onEndReachedThreshold={0.1}
+      />
       <FilterModal
         isVisible={modalVisible}
         setModalVisible={setModalVisible}
@@ -146,7 +126,7 @@ export default ProductList;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
   },
   filterContainer: {
@@ -165,20 +145,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   productContainer: {
-    width: screenWidth - 60,
-    height: screenHeight - 350,
     justifyContent: 'center',
     alignItems: 'center',
+    paddingBottom: 20,
   },
-  clearFilter: {
-    width: screenWidth / 4,
-    height: 35,
-    backgroundColor: 'red',
+  loadMoreButton: {
+    width: screenWidth - 60,
+    height: 40,
+    backgroundColor: 'lightblue',
     borderRadius: 5,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  clearText: {
-    color: 'white',
+    marginTop: 10,
   },
 });

@@ -3,27 +3,27 @@ import React from 'react';
 
 const Header = () => {
   return (
-    <View
-      style={{
-        height: 60,
-        backgroundColor: 'mediumblue',
-        justifyContent: 'center',
-        alignItems: 'flex-start',
-        paddingLeft: 10,
-      }}>
-      <Text
-        style={{
-          textAlign: 'center',
-          color: 'white',
-          fontSize: 24,
-          fontWeight: 'bold',
-        }}>
-        E-Market
-      </Text>
+    <View style={styles.container}>
+      <Text style={styles.title}>E-Market</Text>
     </View>
   );
 };
 
 export default Header;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    height: 60,
+    width: '100%',
+    backgroundColor: '#1c56ff',
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    paddingLeft: 10,
+  },
+  title: {
+    textAlign: 'center',
+    color: 'white',
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
+});

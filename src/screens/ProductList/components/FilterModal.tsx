@@ -8,26 +8,20 @@ import {
   TouchableOpacity,
   FlatList,
 } from 'react-native';
+import {ScrollView} from 'react-native-virtualized-view';
 import SearchInput from '../../../components/SearchInput';
-import {screenWidth} from '../../../utils/uiHelpers';
+import {screenHeight, screenWidth} from '../../../utils/uiHelpers';
 import {useAppDispatch, useAppSelector} from '../../../redux/store';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import {
   addFilterBrands,
   addFilterModels,
   setSort,
 } from '../../../redux/slices/DataSlice/DataSlice';
+import {Product} from '../../../types/ProductTypes';
 
-interface Product {
-  id: string;
-  brand: string;
-  model: string;
-  name: string;
-  price: string;
-  description: string;
-  image: string;
-  createdAt: string;
-}
+const screenRatio = screenHeight / screenWidth;
 
 type RadioButtonProps = {
   label: string;
@@ -74,16 +68,9 @@ const FilterModal: React.FC<FilterModalProps> = ({
   const [searchModel, setSearchModel] = useState<string>('');
   const [searchBrand, setSearchBrand] = useState<string>('');
   const [selectedBrands, setSelectedBrands] = useState<Product[]>([]);
-  console.log('selectedBrandsssssss', selectedBrands);
   const [selectedModels, setSelectedModels] = useState<Product[]>([]);
-  console.log('selectedBrands', selectedBrands);
   const dispatch = useAppDispatch();
-  const filteredModels = useAppSelector(
-    (state: any) => state.data.filterModels,
-  );
-  const filteredBrands = useAppSelector(
-    (state: any) => state.data.filterBrands,
-  );
+
   const handleSelectOption = (option: string) => {
     setSelectedOption(option);
   };
@@ -129,14 +116,6 @@ const FilterModal: React.FC<FilterModalProps> = ({
     filterBrands();
   }, [searchBrand]);
 
-  useEffect(() => {
-    console.log('aaaaa');
-    console.log('bbbbbbb', filteredBrands);
-    console.log('cccccc', filteredModels);
-    setSelectedBrands(filteredBrands);
-    setSelectedModels(filteredModels);
-  }, [filteredBrands, filteredModels, isVisible]);
-
   const filterModels = () => {
     const filterModels = uniqueModels.filter(i =>
       i.model.toLowerCase().includes(searchModel.toLowerCase()),
@@ -170,7 +149,6 @@ const FilterModal: React.FC<FilterModalProps> = ({
       </TouchableOpacity>
     );
   };
-  console.log('selectedBrands', selectedBrands);
   const modelRenderItem = ({item}: {item: Product}) => {
     return (
       <TouchableOpacity
@@ -198,11 +176,12 @@ const FilterModal: React.FC<FilterModalProps> = ({
           <View>
             <View style={styles.headerContainer}>
               <TouchableOpacity onPress={() => setModalVisible(false)}>
-                <Text>X</Text>
+                <EvilIcons name="close" size={30} />
               </TouchableOpacity>
-              <Text>Filter</Text>
+              <Text style={styles.headerText}>Filter</Text>
               <Text />
             </View>
+
             <View style={{paddingHorizontal: 10}}>
               <Text style={styles.sectionTitle}>Sort By</Text>
               <RadioButton
@@ -240,7 +219,8 @@ const FilterModal: React.FC<FilterModalProps> = ({
                 {brand && brand.length > 0 ? (
                   <FlatList
                     data={brand}
-                    keyExtractor={(item: any) => item?.id.toString()}
+                    keyExtractor={(item: Product) => item?.id.toString()}
+                    nestedScrollEnabled={true}
                     renderItem={brandRenderItem}
                   />
                 ) : (
@@ -264,7 +244,8 @@ const FilterModal: React.FC<FilterModalProps> = ({
                 {models && models.length > 0 ? (
                   <FlatList
                     data={models}
-                    keyExtractor={(item: any) => item?.id?.toString()}
+                    keyExtractor={(item: Product) => item?.id?.toString()}
+                    nestedScrollEnabled={true}
                     renderItem={modelRenderItem}
                   />
                 ) : (
@@ -279,12 +260,8 @@ const FilterModal: React.FC<FilterModalProps> = ({
             <TouchableOpacity
               style={styles.applyButton}
               onPress={() => {
-                if (selectedBrands.length !== 0) {
-                  dispatch(addFilterBrands(selectedBrands.map(i => i?.brand)));
-                }
-                if (selectedModels.length !== 0) {
-                  dispatch(addFilterModels(selectedModels.map(i => i?.model)));
-                }
+                dispatch(addFilterBrands(selectedBrands.map(i => i?.brand)));
+                dispatch(addFilterModels(selectedModels.map(i => i?.model)));
                 if (selectedOption) {
                   dispatch(setSort(selectedOption));
                 }
@@ -318,6 +295,10 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     height: 60,
   },
+  headerText: {
+    fontSize: 20,
+    marginRight: 10,
+  },
   body: {justifyContent: 'space-between', height: '100%'},
   sectionTitle: {
     fontSize: 16,
@@ -334,7 +315,7 @@ const styles = StyleSheet.create({
     width: 20,
     borderRadius: 12,
     borderWidth: 2,
-    borderColor: 'blue',
+    borderColor: '#1c56ff',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -350,7 +331,7 @@ const styles = StyleSheet.create({
     height: 12,
     width: 12,
     borderRadius: 12,
-    backgroundColor: 'blue',
+    backgroundColor: '#1c56ff',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -369,22 +350,22 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
     borderWidth: 2,
-    borderColor: 'blue',
+    borderColor: '#1c56ff',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 5,
   },
   checkedBox: {
-    backgroundColor: 'blue',
+    backgroundColor: '#1c56ff',
   },
   brandContainer: {
     flexDirection: 'column',
     alignItems: 'flex-start',
     margin: 10,
-    maxHeight: 90,
+    maxHeight: screenRatio > 1.8 ? screenHeight / 10 : screenHeight / 12,
   },
   applyButton: {
-    backgroundColor: 'blue',
+    backgroundColor: '#1c56ff',
     justifyContent: 'center',
     alignItems: 'center',
     padding: 10,
