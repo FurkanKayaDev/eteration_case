@@ -84,6 +84,7 @@ const CartPage = () => {
             <View style={styles.body}>
               <FlatList
                 data={uniqueItems}
+                testID="flatlist"
                 keyExtractor={item => item.id.toString()}
                 renderItem={renderItem}
               />

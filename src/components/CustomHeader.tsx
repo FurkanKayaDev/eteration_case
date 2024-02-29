@@ -11,10 +11,8 @@ const CustomHeader = ({title}: {title: string}) => {
       <TouchableOpacity onPress={() => navigation.goBack()}>
         <Icon name="arrow-back" size={32} color="white" />
       </TouchableOpacity>
-      <Text style={{color: 'white', fontWeight: 'bold', fontSize: 18}}>
-        {title}
-      </Text>
-      <View style={{width: 32}} />
+      <Text style={styles.title}>{title}</Text>
+      <View style={styles.blank} />
     </View>
   );
 };
@@ -29,5 +27,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     height: 60,
     paddingHorizontal: '9%',
+  },
+  title: {
+    color: 'white',
+    fontWeight: 'bold',
+  },
+  blank: {
+    width: 32,
   },
 });

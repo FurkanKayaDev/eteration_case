@@ -1,4 +1,4 @@
-import {SafeAreaView} from 'react-native';
+import {SafeAreaView, StyleSheet} from 'react-native';
 import React from 'react';
 import Router from './src/router/Router';
 import {Provider} from 'react-redux';
@@ -9,7 +9,7 @@ import {persistStore} from 'redux-persist';
 const App = () => {
   const persistor = persistStore(store);
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={styles.flex}>
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <Router />
@@ -20,3 +20,9 @@ const App = () => {
 };
 
 export default App;
+
+const styles = StyleSheet.create({
+  flex: {
+    flex: 1,
+  },
+});

@@ -1,11 +1,11 @@
-import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
+import {createSlice, createAsyncThunk, SerializedError} from '@reduxjs/toolkit';
 import axios from 'axios';
 import {Product} from '../../../types/ProductTypes';
 
 interface DataState {
   products: Product[];
   loading: boolean;
-  error: null | string;
+  error: null | string | SerializedError;
   filterBrands: string[];
   filterModels: string[];
   sort: string;

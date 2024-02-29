@@ -27,7 +27,7 @@ const SearchInput = ({
           value={value}
           onChangeText={setValue}
           placeholder={placeholder}
-          style={{flex: 1}}
+          style={styles.flex}
         />
         {icon && (
           <View style={styles.icon}>
@@ -52,6 +52,9 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  flex: {
+    flex: 1,
   },
   input: {
     flexDirection: 'row',

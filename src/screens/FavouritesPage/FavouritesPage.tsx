@@ -31,7 +31,7 @@ const FavouritesPage = () => {
         value={search}
         setValue={setSearch}
         placeholder="🔍 Search"
-        containerStyle={{margin: 10, width: screenWidth - 60}}
+        containerStyle={styles.input}
       />
       <FlatList
         data={data}
@@ -51,5 +51,9 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
+  },
+  input: {
+    margin: 10,
+    width: screenWidth - 60,
   },
 });

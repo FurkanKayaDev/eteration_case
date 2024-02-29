@@ -19,19 +19,25 @@ test('is increment button working?', async () => {
     </Provider>,
   );
 
-  const addButton = getByTestId('addProduct');
-  const removeButton = getByTestId('removeProduct');
-  const countText = getByTestId('countText');
+  const flatlist = queryByTestId('flatlist');
 
-  if (!addButton && !removeButton && !countText) {
-    expect(getByTestId('emptyCartText')).toBeTruthy();
+  if (!flatlist) {
+    expect(queryByTestId('emptyCartText')).toBeTruthy();
   } else {
-    expect(countText).toHaveTextContent('1');
+    const removeButton = getByTestId('removeProduct');
+    const countText = getByTestId('countText');
+    const addButton = getByTestId('addProduct');
 
-    fireEvent.press(addButton);
-    expect(countText).toHaveTextContent('2');
+    if (!addButton && !removeButton && !countText) {
+      expect(getByTestId('emptyCartText')).toBeTruthy();
+    } else {
+      expect(countText).toHaveTextContent('1');
 
-    fireEvent.press(removeButton);
-    expect(countText).toHaveTextContent('1');
+      fireEvent.press(addButton);
+      expect(countText).toHaveTextContent('2');
+
+      fireEvent.press(removeButton);
+      expect(countText).toHaveTextContent('1');
+    }
   }
 });

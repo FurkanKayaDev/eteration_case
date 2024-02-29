@@ -9,9 +9,8 @@ import {
   FlatList,
 } from 'react-native';
 import SearchInput from '../../../components/SearchInput';
-import {screenHeight, screenWidth} from '../../../utils/uiHelpers';
-import {useAppDispatch, useAppSelector} from '../../../redux/store';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import {screenRatio, screenWidth} from '../../../utils/uiHelpers';
+import {useAppDispatch} from '../../../redux/store';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import {
   addFilterBrands,
@@ -21,10 +20,6 @@ import {
 import {Product} from '../../../types/ProductTypes';
 import RadioButton from '../../../components/RadioButton';
 import Checkbox from '../../../components/Checkbox';
-import Device from 'react-native-device-info';
-
-const screenRatio = screenHeight / screenWidth;
-const isTablet = Device.isTablet();
 
 type FilterModalProps = {
   isVisible: boolean;
@@ -160,10 +155,10 @@ const FilterModal: React.FC<FilterModalProps> = ({
               <Text />
             </View>
 
-            <View style={{paddingHorizontal: 10}}>
+            <View style={styles.paddingH10}>
               <Text style={styles.sectionTitle}>Sort By</Text>
               <View style={styles.sortContainer}>
-                <View style={{}}>
+                <View>
                   <RadioButton
                     label="Old to New"
                     selected={selectedOption === 'newest'}
@@ -190,14 +185,14 @@ const FilterModal: React.FC<FilterModalProps> = ({
               </View>
               <View style={styles.blank} />
             </View>
-            <View style={{paddingHorizontal: 10}}>
+            <View style={styles.paddingH10}>
               <Text style={styles.sectionTitle}>Brand</Text>
               <SearchInput
                 value={searchBrand}
                 setValue={setSearchBrand}
                 placeholder="🔍 Search"
-                containerStyle={{margin: 5, width: screenWidth - 60}}
-                inputStyle={{backgroundColor: 'whitesmoke'}}
+                containerStyle={styles.input}
+                inputStyle={styles.inputBg}
               />
               <View style={styles.brandContainer}>
                 {brand && brand.length > 0 ? (
@@ -215,14 +210,14 @@ const FilterModal: React.FC<FilterModalProps> = ({
               </View>
               <View style={styles.blank} />
             </View>
-            <View style={{paddingHorizontal: 10}}>
+            <View style={styles.paddingH10}>
               <Text style={styles.sectionTitle}>Model</Text>
               <SearchInput
                 value={searchModel}
                 setValue={setSearchModel}
                 placeholder="🔍 Search"
-                containerStyle={{margin: 5, width: screenWidth - 60}}
-                inputStyle={{backgroundColor: 'whitesmoke'}}
+                containerStyle={styles.input}
+                inputStyle={styles.inputBg}
               />
               <View style={styles.brandContainer}>
                 {models && models.length > 0 ? (
@@ -312,6 +307,16 @@ const styles = StyleSheet.create({
     margin: 10,
     borderRadius: 5,
   },
+  paddingH10: {
+    paddingHorizontal: 10,
+  },
+  input: {
+    margin: 5,
+    width: screenWidth - 60,
+  },
+  inputBg: {
+    backgroundColor: 'whitesmoke',
+  },
   buttonText: {
     color: 'white',
     fontSize: 16,
@@ -327,12 +332,12 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'flex-start',
     padding: 4,
-    maxHeight: screenRatio > 1.9 && !isTablet ? 100 : 70,
+    maxHeight: screenRatio > 1.9 ? 100 : 70,
   },
   sortContainer: {
-    flexDirection: screenRatio < 1.9 && !isTablet ? 'row' : 'column',
+    flexDirection: screenRatio < 1.9 ? 'row' : 'column',
   },
   sortBody: {
-    marginLeft: screenRatio < 1.9 && !isTablet ? 40 : 0,
+    marginLeft: screenRatio < 1.9 ? 40 : 0,
   },
 });

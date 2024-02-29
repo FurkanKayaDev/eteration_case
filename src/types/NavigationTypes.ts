@@ -1,13 +1,4 @@
-interface Product {
-  id: string;
-  brand: string;
-  model: string;
-  name: string;
-  price: string;
-  description: string;
-  image: string;
-  createdAt: string;
-}
+import {Product} from './ProductTypes';
 
 export type TabScreenParamList = {
   FavouritesPage: undefined;

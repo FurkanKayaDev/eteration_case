@@ -91,7 +91,7 @@ const ProductList = () => {
         containerStyle={styles.input}
       />
       <View style={styles.filterContainer}>
-        <Text style={{fontSize: 18}}>Filters:</Text>
+        <Text style={styles.filterText}>Filters:</Text>
         <TouchableOpacity
           style={styles.filterButton}
           onPress={() => setModalVisible(true)}
@@ -145,6 +145,9 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  filterText: {
+    fontSize: 18,
   },
   productContainer: {
     justifyContent: 'center',

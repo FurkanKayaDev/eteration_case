@@ -45,7 +45,8 @@ target 'eteration_case' do
   end
 
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
-
+  pod 'RNDeviceInfo', :path => '../node_modules/react-native-device-info'
+  
   post_install do |installer|
     # https://github.com/facebook/react-native/blob/main/packages/react-native/scripts/react_native_pods.rb#L197-L202
     react_native_post_install(

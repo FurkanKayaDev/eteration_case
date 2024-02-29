@@ -27,15 +27,13 @@ const ProductDetail = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.body}>
-        <Image source={{uri: item.image}} style={styles.image} />
-        <View style={styles.informationContainer}>
-          <Text style={styles.title}>{item.name}</Text>
-          <ScrollView style={styles.scrollView}>
-            <Text style={styles.description}>{item.description}</Text>
-          </ScrollView>
-        </View>
-      </View>
+      <Image source={{uri: item.image}} style={styles.image} />
+      <Text style={styles.title}>{item.name}</Text>
+      <ScrollView
+        contentContainerStyle={styles.scrollView}
+        showsVerticalScrollIndicator={false}>
+        <Text style={styles.description}>{item.description}</Text>
+      </ScrollView>
       <View style={styles.footerContainer}>
         <View>
           <Text style={styles.priceText}>Price:</Text>
@@ -60,20 +58,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-around',
   },
-  body: {
-    flex: 1,
-    width: '100%',
-    alignItems: 'center',
-  },
   image: {
     width: '80%',
     height: screenHeight * 0.25,
     marginTop: 20,
     backgroundColor: 'red',
-  },
-  informationContainer: {
-    marginTop: 20,
-    width: '80%',
   },
   title: {
     fontSize: 24,
@@ -84,7 +73,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   scrollView: {
-    height: screenHeight * 0.35,
+    width: '80%',
   },
   footerContainer: {
     width: '80%',
