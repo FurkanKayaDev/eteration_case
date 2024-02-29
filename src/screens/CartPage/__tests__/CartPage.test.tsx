@@ -19,9 +19,9 @@ test('is increment button working?', async () => {
     </Provider>,
   );
 
-  const addButton = queryByTestId('addProduct');
-  const removeButton = queryByTestId('removeProduct');
-  const countText = queryByTestId('countText');
+  const addButton = getByTestId('addProduct');
+  const removeButton = getByTestId('removeProduct');
+  const countText = getByTestId('countText');
 
   if (!addButton && !removeButton && !countText) {
     expect(getByTestId('emptyCartText')).toBeTruthy();
