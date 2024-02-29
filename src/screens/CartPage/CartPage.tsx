@@ -80,7 +80,7 @@ const CartPage = () => {
       <Header />
       <View style={styles.products}>
         {cartItems && cartItems.length > 0 ? (
-          <View>
+          <View style={styles.content}>
             <View style={styles.body}>
               <FlatList
                 data={uniqueItems}
@@ -123,6 +123,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   products: {
+    flex: 1,
     width: '80%',
     flex: 1,
     justifyContent: 'space-between',
@@ -178,10 +179,10 @@ const styles = StyleSheet.create({
   },
   footerContainer: {
     width: '100%',
+    height: 50,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 20,
   },
   completeBtn: {
     width: 150,
@@ -189,7 +190,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#1c56ff',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 10,
     borderRadius: 5,
   },
   completeText: {
@@ -209,5 +209,10 @@ const styles = StyleSheet.create({
   },
   body: {
     maxHeight: '90%',
+  },
+  content: {
+    height: '100%',
+    justifyContent: 'space-between',
+    paddingBottom: 10,
   },
 });

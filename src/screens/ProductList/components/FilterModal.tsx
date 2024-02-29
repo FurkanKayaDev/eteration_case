@@ -21,8 +21,10 @@ import {
 import {Product} from '../../../types/ProductTypes';
 import RadioButton from '../../../components/RadioButton';
 import Checkbox from '../../../components/Checkbox';
+import Device from 'react-native-device-info';
 
 const screenRatio = screenHeight / screenWidth;
+const isTablet = Device.isTablet();
 
 type FilterModalProps = {
   isVisible: boolean;
@@ -160,26 +162,32 @@ const FilterModal: React.FC<FilterModalProps> = ({
 
             <View style={{paddingHorizontal: 10}}>
               <Text style={styles.sectionTitle}>Sort By</Text>
-              <RadioButton
-                label="Old to New"
-                selected={selectedOption === 'newest'}
-                onPress={() => handleSelectOption('newest')}
-              />
-              <RadioButton
-                label="New to Old"
-                selected={selectedOption === 'oldest'}
-                onPress={() => handleSelectOption('oldest')}
-              />
-              <RadioButton
-                label="Price high to low"
-                selected={selectedOption === 'highToLow'}
-                onPress={() => handleSelectOption('highToLow')}
-              />
-              <RadioButton
-                label="Price low to high"
-                selected={selectedOption === 'lowToHigh'}
-                onPress={() => handleSelectOption('lowToHigh')}
-              />
+              <View style={styles.sortContainer}>
+                <View style={{}}>
+                  <RadioButton
+                    label="Old to New"
+                    selected={selectedOption === 'newest'}
+                    onPress={() => handleSelectOption('newest')}
+                  />
+                  <RadioButton
+                    label="New to Old"
+                    selected={selectedOption === 'oldest'}
+                    onPress={() => handleSelectOption('oldest')}
+                  />
+                </View>
+                <View style={styles.sortBody}>
+                  <RadioButton
+                    label="Price high to low"
+                    selected={selectedOption === 'highToLow'}
+                    onPress={() => handleSelectOption('highToLow')}
+                  />
+                  <RadioButton
+                    label="Price low to high"
+                    selected={selectedOption === 'lowToHigh'}
+                    onPress={() => handleSelectOption('lowToHigh')}
+                  />
+                </View>
+              </View>
               <View style={styles.blank} />
             </View>
             <View style={{paddingHorizontal: 10}}>
@@ -282,7 +290,7 @@ const styles = StyleSheet.create({
   body: {justifyContent: 'space-between', height: '100%'},
   sectionTitle: {
     fontSize: 16,
-    marginVertical: 10,
+    marginVertical: 5,
     color: 'grey',
   },
   blank: {
@@ -312,13 +320,19 @@ const styles = StyleSheet.create({
   selectionContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    margin: 5,
     width: screenWidth - 60,
+    height: 30,
   },
   brandContainer: {
     flexDirection: 'column',
     alignItems: 'flex-start',
-    margin: 10,
-    maxHeight: screenRatio > 1.8 ? screenHeight / 10 : screenHeight / 12,
+    padding: 4,
+    maxHeight: screenRatio > 1.9 && !isTablet ? 100 : 70,
+  },
+  sortContainer: {
+    flexDirection: screenRatio < 1.9 && !isTablet ? 'row' : 'column',
+  },
+  sortBody: {
+    marginLeft: screenRatio < 1.9 && !isTablet ? 40 : 0,
   },
 });
